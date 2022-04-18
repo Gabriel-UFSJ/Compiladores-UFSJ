@@ -1,0 +1,47 @@
+<INT> : int 
+<ID> : i
+<ATRIBUIÇÃO> : =
+<INT_LITERAL> : 0
+<PONTO_VIRGULA> : ;
+<FOR> : for
+<ABRE_PARENTESES> : (
+<INT> : int 
+<ID> : i
+<ATRIBUIÇÃO> : =
+<INT_LITERAL> : 0
+<PONTO_VIRGULA> : ;
+<ID> : i
+<MENOR> : <
+<INT_LITERAL> : 20
+<PONTO_VIRGULA> : ;
+<ID> : i
+<MAIS> : +
+<MAIS> : +
+<FECHA_PARENTESES> : )
+<ABRE_CHAVE> : {
+<INT> : int 
+<ID> : i
+<MAIS> : +
+<ATRIBUIÇÃO> : =
+<ID> : i
+<PONTO_VIRGULA> : ;
+<INT> : int 
+<ERRO_LEXICO> : 9i = 0;
+
+<ID> : fala
+<ABRE_COLCHETE> : [
+<INT_LITERAL> : 100
+<PONTO_VIRGULA> : ;
+<FECHA_COLCHETE> : ]
+<INT> : int 
+<INT_LITERAL> : 1
+<PONTO_VIRGULA> : ;
+<INT> : int 
+<ERRO_LEXICO> : 2a;
+
+<ID> : int2a
+<PONTO_VIRGULA> : ;
+<INT> : int 
+<ID> : aa
+<PONTO_VIRGULA> : ;
+<FECHA_CHAVE> : }
