@@ -40,14 +40,17 @@ with open ("identificadores.txt", 'w') as file:
   data = file.write(identificador)
 
 with open ("test.c", 'r') as file:
-  contador_linhas = 0
   with open ("Erros_léxicos.txt", 'r') as txt:
-    palavra = txt.readline()
     while palavra:
+      file.seek(0)
+      contador_linhas = 0
+      palavra = txt.readline()
       for linha in file:
         contador_linhas = contador_linhas + 1
-        if palavra in linha:
+        if palavra and palavra in linha:
           print("Erro léxico linha: %d, %s" % (contador_linhas, linha))
+        
+
         
 
   
