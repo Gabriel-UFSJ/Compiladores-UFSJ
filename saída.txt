@@ -15,8 +15,7 @@
 <INT_LITERAL> : 20
 <PONTO_VIRGULA> : ;
 <ID> : i
-<MAIS> : +
-<MAIS> : +
+<MAIS_MAIS> : ++
 <FECHA_PARENTESES> : )
 <ABRE_CHAVE> : {
 <INT> : int 

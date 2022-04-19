@@ -24,9 +24,7 @@ class Analyzer:
     def compile(self, input):
         tokens = []
         for match in self.REGEX.finditer(input):
-            if match.lastgroup == "ERRO_LEXICO":
-                print("Erro léxico {}".format(match.group()))
-            elif match.lastgroup == "SEPARADOR":
+            if match.lastgroup == "SEPARADOR":
                 continue
             tokens.append(Token(match.lastgroup, match.group(),))
 

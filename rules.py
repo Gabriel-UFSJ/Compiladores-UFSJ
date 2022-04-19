@@ -42,6 +42,8 @@ REGRAS = [
     ("ATRIBUIÇÃO", r"\=", None, None),
     ("HASHTAG", r"\#", None, None),
     ("BARRA_INVERTIDA", r"\\", None, None),
+    ("MAIS_MAIS", r"\+\+", None, None),
+    ("MENOS_MENOS", r"\-\-", None, None),
     ("MENOS", r"\-", None, None),
     ("MAIS", r"\+", None, None),
     ("MULTIPLICAÇÃO", r"\*", None, None),

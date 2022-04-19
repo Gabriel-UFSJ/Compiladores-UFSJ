@@ -13,7 +13,6 @@ for token in tokens:
 
 with open("saída.txt", 'w') as file:
     data = file.write(strTokens)
-print(strTokens)
 
 with open ("saída.txt", 'r') as file:
   palavra = "ERRO_LEXICO"
@@ -22,9 +21,33 @@ with open ("saída.txt", 'r') as file:
   for linha in file:
     contador_linhas = contador_linhas + 1
     if palavra in linha:
-      print("Erro léxico linha: %d, %s" % (contador_linhas, linha))
+      linha = linha.replace("<ERRO_LEXICO> : ", "")
       erros += linha
 
 
 with open ("Erros_léxicos.txt", 'w') as file:
   data = file.write(erros)
+
+
+with open ("saída.txt", 'r') as file:
+  palavra = "ID"
+  identificador = ""
+  for linha in file:
+    if palavra in linha:
+      identificador += linha
+
+with open ("identificadores.txt", 'w') as file:
+  data = file.write(identificador)
+
+with open ("test.c", 'r') as file:
+  contador_linhas = 0
+  with open ("Erros_léxicos.txt", 'r') as txt:
+    palavra = txt.readline()
+    while palavra:
+      for linha in file:
+        contador_linhas = contador_linhas + 1
+        if palavra in linha:
+          print("Erro léxico linha: %d, %s" % (contador_linhas, linha))
+        
+
+  

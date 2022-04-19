@@ -1,2 +1,2 @@
-<ERRO_LEXICO> : 9i = 0;
-<ERRO_LEXICO> : 2a;
+9i = 0;
+2a;
