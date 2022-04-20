@@ -33,7 +33,7 @@ with open ("saída.txt", 'r') as file:
   palavra = "ID"
   identificador = ""
   for linha in file:
-    if palavra in linha:
+    if palavra in linha and identificador != linha:
       identificador += linha
 
 with open ("identificadores.txt", 'w') as file:
