@@ -1,6 +1,5 @@
 from analyzer import Analyzer
 
-
 with open("test.c", 'r') as file:
     data = file.read()
 
