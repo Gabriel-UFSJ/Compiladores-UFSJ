@@ -28,11 +28,13 @@ with open ("Erros_léxicos.txt", 'w') as file: # escrevendo os erros no arquivo
 
 
 with open ("saída.txt", 'r') as file: # verificando as variáveis iniciadas no arquivo
-  iniciando = "<INT>"
+  iniInt = "<INT>"
+  iniChar = "<CHAR>"
+  iniFloat = "<FLOAT>"
   id = "<ID>"
   identificador = ""
   for linha in file:
-    if iniciando in linha:
+    if iniInt in linha or iniChar in linha or iniFloat in linha:
       prox = file.readline() # VÊ SE DÁ CERTO
       if id in prox:
         identificador += prox
