@@ -1,42 +1,33 @@
-#----------------------------------------------------------------------------
-# Created By  : Gabriel Resende Meireles
-# Created Date: 07/04/2022
-# version ='1.0'
-# ---------------------------------------------------------------------------
-
 from analyzer import Analyzer
 
-with open("test.c", 'r') as file: # abrindo 
+with open("test.c", 'r') as file: # abrindo arquivo de entrada
     data = file.read()
-
 analyzer = Analyzer()
-tokens = analyzer.compile(data)
+tokens = analyzer.compile(data) #verificação dos tokens
 strTokens = ""
 
 for token in tokens:
-    strTokens += token.__str__() +"\n"
+    strTokens += token.__str__() +"\n" # salvando os tokens com quebra de linha
 
-with open("saída.txt", 'w') as file:
+with open("saída.txt", 'w') as file:  # escrevendo a saída no arquivo
     data = file.write(strTokens)
 
-with open ("saída.txt", 'r') as file:
+with open ("saída.txt", 'r') as file: # função para verificar erros léxicos
   palavra = "ERRO_LEXICO"
-  contador_linhas = 0
   erros = ""
   numErros = 0
   for linha in file:
-    contador_linhas = contador_linhas + 1
     if palavra in linha:
       linha = linha.replace("<ERRO_LEXICO> : ", "")
       erros += linha
       numErros = numErros + 1
 
 
-with open ("Erros_léxicos.txt", 'w') as file:
+with open ("Erros_léxicos.txt", 'w') as file: # escrevendo os erros no arquivo
   data = file.write(erros)
 
 
-with open ("saída.txt", 'r') as file:
+with open ("saída.txt", 'r') as file: # verificando as variáveis iniciadas no arquivo
   iniciando = "<INT>"
   id = "<ID>"
   identificador = ""
@@ -46,13 +37,13 @@ with open ("saída.txt", 'r') as file:
       if id in prox:
         identificador += prox
 
-with open ("identificadores.txt", 'w') as file:
+with open ("identificadores.txt", 'w') as file: # escrevendo as variáveis iniciadas
   data = file.write(identificador)
 
-with open ("test.c", 'r') as file:
+with open ("test.c", 'r') as file: # achando as linhas do erro léxico
   with open ("Erros_léxicos.txt", 'r') as txt:
     while palavra:
-      file.seek(0)
+      file.seek(0) # voltando ao inicio do arquivo
       contador_linhas = 0
       palavra = txt.readline()
       for linha in file:

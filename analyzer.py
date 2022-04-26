@@ -3,7 +3,7 @@ from rules import REGRAS
 
 
 
-class Token:
+class Token: 
     def __init__(self, type, value):
         self.type = type
         self.value = value
@@ -22,7 +22,7 @@ class Analyzer:
     def compile(self, input):
         tokens = []
         for match in self.REGEX.finditer(input):
-            if match.lastgroup == "SEPARADOR":
+            if match.lastgroup == "SEPARADOR": # ao encontrar um separador continua
                 continue
             tokens.append(Token(match.lastgroup, match.group(),))
         return tokens
@@ -31,10 +31,10 @@ class Analyzer:
     def appendGroups():
         newRules = []
         for type, regex, before, after in REGRAS:
-            tokenRegex = "(?P<{}>{})".format(type, regex,)
+            tokenRegex = "(?P<{}>{})".format(type, regex)
             if before is not None:
-                tokenRegex = before + tokenRegex
+                tokenRegex = before + tokenRegex # antes + token
             if after is not None:
-                tokenRegex += after
+                tokenRegex += after # token + depois
             newRules.append(tokenRegex)
         return newRules
