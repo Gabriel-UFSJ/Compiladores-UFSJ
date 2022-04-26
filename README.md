@@ -6,7 +6,7 @@ Usando regex e python
 Para compilar digite no terminal: python main.py
 Requer instalado: Python
 
-# Regras
+# Tokens Aceitos
 ```c
 "BREAK","BOOL","CASE","CHAR","CONST","ELSE","ENUM","FLOAT","FOR","IF","INT","RETURN","PRINTF","SCANF","PONTEIRO","SWITCH","VOID","WHILE","ID","INT_LITERAL","FLOAT_LITERAL","STRING_LITERAL","CHAR_LITERAL","ABRE_CHAVE","FECHA_CHAVE","ABRE_COLCHETE","FECHA_COLCHETE","ABRE_PARENTESES","FECHA_PARENTESES","VIRGULA","PONTO_VIRGULA","PONTO","NOT","ATRIBUIÇÃO","HASHTAG","BARRA_INVERTIDA","MAIS_MAIS","MENOS_MENOS","MENOS","MAIS","MULTIPLICAÇÃO","DIVISÃO","PORCENTAGEM","MAIOR","MENOR","MAIOR_IGUAL","MENOR_IGUAL","IGUAL","DIFERENTE","AND","OR","COMENT_MULTI","COMENT_LINHA","SEPARADOR","ERRO_LEXICO"
 ````
@@ -32,7 +32,7 @@ int main() {
   return 0;
 }
 ```
-#Saída
+# Saída
 ```c
 <INT> : int 
 <ID> : main
@@ -118,4 +118,12 @@ int main() {
 <PONTO_VIRGULA> : ;
 <FECHA_CHAVE> : }
 ```
+# Fontes
+https://regexr.com/
+
+https://www.w3schools.com/python/python_regex.asp
+
+https://www.programiz.com/python-programming/regex
+
+http://www.mit.edu/people/amliu/vrut/python/ref/ref-4.html
 
