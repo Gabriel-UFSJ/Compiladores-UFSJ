@@ -1,3 +1,9 @@
+#----------------------------------------------------------------------------
+# Created By  : Gabriel Resende Meireles
+# Created Date: 07/04/2022
+# version ='1.0'
+# ---------------------------------------------------------------------------
+
 from analyzer import Analyzer
 
 with open("test.c", 'r') as file: # abrindo 
