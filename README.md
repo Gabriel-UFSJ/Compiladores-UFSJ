@@ -32,7 +32,7 @@ int main() {
   return 0;
 }
 ```
-#Saída
+# Saída
 ```c
 <INT> : int 
 <ID> : main
@@ -118,4 +118,9 @@ int main() {
 <PONTO_VIRGULA> : ;
 <FECHA_CHAVE> : }
 ```
+# Fontes
+https://regexr.com/
+https://www.w3schools.com/python/python_regex.asp
+https://www.programiz.com/python-programming/regex
+http://www.mit.edu/people/amliu/vrut/python/ref/ref-4.html
 
