@@ -120,7 +120,10 @@ int main() {
 ```
 # Fontes
 https://regexr.com/
+
 https://www.w3schools.com/python/python_regex.asp
+
 https://www.programiz.com/python-programming/regex
+
 http://www.mit.edu/people/amliu/vrut/python/ref/ref-4.html
 
