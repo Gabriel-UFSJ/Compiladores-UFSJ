@@ -17,9 +17,7 @@ class Token:
 class Analyzer:
 
     def __init__(self):
-        self.REGEX = re.compile(
-            "|".join(self.appendGroups())
-        )
+        self.REGEX = re.compile("|".join(self.appendGroups()))
 
     def compile(self, input):
         tokens = []
@@ -27,11 +25,7 @@ class Analyzer:
             if match.lastgroup == "SEPARADOR":
                 continue
             tokens.append(Token(match.lastgroup, match.group(),))
-
-
         return tokens
-
-
 
     @staticmethod
     def appendGroups():

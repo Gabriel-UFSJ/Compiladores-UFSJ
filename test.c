@@ -1,5 +1,8 @@
 int main() {
-  int t1 = 0 , t2 = 1 , nextTerm = 0 , n;
+  int t1 = 0;
+  int t2 = 1;
+  int nextTerm = 0;
+  int n;
   printf("Enter a positive number: ");
   scanf("%d", &n);
 

@@ -1,6 +1,6 @@
 from analyzer import Analyzer
 
-with open("test.c", 'r') as file:
+with open("test.c", 'r') as file: # abrindo 
     data = file.read()
 
 analyzer = Analyzer()
@@ -17,11 +17,13 @@ with open ("saída.txt", 'r') as file:
   palavra = "ERRO_LEXICO"
   contador_linhas = 0
   erros = ""
+  numErros = 0
   for linha in file:
     contador_linhas = contador_linhas + 1
     if palavra in linha:
       linha = linha.replace("<ERRO_LEXICO> : ", "")
       erros += linha
+      numErros = numErros + 1
 
 
 with open ("Erros_léxicos.txt", 'w') as file:
@@ -29,11 +31,14 @@ with open ("Erros_léxicos.txt", 'w') as file:
 
 
 with open ("saída.txt", 'r') as file:
-  palavra = "ID"
+  iniciando = "<INT>"
+  id = "<ID>"
   identificador = ""
   for linha in file:
-    if palavra in linha and identificador != linha:
-      identificador += linha
+    if iniciando in linha:
+      prox = file.readline() # VÊ SE DÁ CERTO
+      if id in prox:
+        identificador += prox
 
 with open ("identificadores.txt", 'w') as file:
   data = file.write(identificador)
@@ -48,6 +53,7 @@ with open ("test.c", 'r') as file:
         contador_linhas = contador_linhas + 1
         if palavra and palavra in linha:
           print("Erro léxico linha: %d, %s" % (contador_linhas, linha))
+    print("exit status %d"% (numErros))
         
 
         
