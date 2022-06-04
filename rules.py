@@ -8,9 +8,10 @@ UNTIL_SPACE = MATCH_UNTIL_SEQ % r"\s" # \s
 UNTIL_SPACE_OR_SEMICOLON = MATCH_UNTIL_SEQ % r"\s|\;" # \s ;
 UNTIL_SPACE_OR_COLON = MATCH_UNTIL_SEQ % r"\s|\:" # \s :
 
-REGRAS = [
+RULES = [
     ("BREAK", r"break", None, UNTIL_SPACE_OR_SEMICOLON),
     ("BOOL", r"bool", None, UNTIL_SPACE),
+    ("MAIN", r"main", None, None),
     ("CASE", r"case", None, UNTIL_SPACE),
     ("CHAR", r"char", None, UNTIL_SPACE),
     ("CONST", r"const", None, UNTIL_SPACE),
@@ -19,7 +20,7 @@ REGRAS = [
     ("FLOAT", r"float", None, UNTIL_SPACE),
     ("FOR", r"for", None, None),
     ("IF", r"if", None, None),
-    ("INT", r"int\s", None, None),
+    ("INT", r"int", None, None),
     ("RETURN", r"return", None, None),
     ("PRINTF", r"printf", None, None),
     ("SCANF", r"scanf", None, None),
@@ -63,5 +64,5 @@ REGRAS = [
     ("COMENT_MULTI", r"\/\*.*\*\/", None, None), # Comentario de várias linhas
     ("COMENT_LINHA", r"\/\/.*", None, None), # Comentario de 1 linha
     ('SEPARADOR', r'[ \t]+', None, None),  # Separadores
-    ("ERRO_LEXICO", r".+\s", None, None), # Erro léxico
+    ("ERRO_LEXICO", r".+", None, None), # Erro léxico
 ]

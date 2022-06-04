@@ -1,86 +1,39 @@
-<INT> : int 
-<ID> : main
-<ABRE_PARENTESES> : (
-<FECHA_PARENTESES> : )
-<ABRE_CHAVE> : {
-<INT> : int 
-<ID> : t1
-<ATRIBUIÇÃO> : =
-<INT_LITERAL> : 0
-<PONTO_VIRGULA> : ;
-<INT> : int 
-<ID> : t2
-<ATRIBUIÇÃO> : =
-<INT_LITERAL> : 1
-<PONTO_VIRGULA> : ;
-<INT> : int 
-<ID> : nextTerm
-<ATRIBUIÇÃO> : =
-<INT_LITERAL> : 0
-<PONTO_VIRGULA> : ;
-<INT> : int 
-<ID> : n
-<PONTO_VIRGULA> : ;
-<PRINTF> : printf
-<ABRE_PARENTESES> : (
-<STRING_LITERAL> : "Enter a positive number: "
-<FECHA_PARENTESES> : )
-<PONTO_VIRGULA> : ;
-<SCANF> : scanf
-<ABRE_PARENTESES> : (
-<STRING_LITERAL> : "%d"
-<VIRGULA> : ,
-<PONTEIRO> : &
-<ID> : n
-<FECHA_PARENTESES> : )
-<PONTO_VIRGULA> : ;
-<COMENT_LINHA> : // displays the first two terms which is always 0 and 1
-<PRINTF> : printf
-<ABRE_PARENTESES> : (
-<STRING_LITERAL> : "Fibonacci Series: %d, %d, "
-<VIRGULA> : ,
-<ID> : t1
-<VIRGULA> : ,
-<ID> : t2
-<FECHA_PARENTESES> : )
-<PONTO_VIRGULA> : ;
-<ID> : nextTerm
-<ATRIBUIÇÃO> : =
-<ID> : t1
-<MAIS> : +
-<ID> : t2
-<PONTO_VIRGULA> : ;
-<WHILE> : while
-<ABRE_PARENTESES> : (
-<ID> : nextTerm
-<MENOR> : <
-<ATRIBUIÇÃO> : =
-<ID> : n
-<FECHA_PARENTESES> : )
-<ABRE_CHAVE> : {
-<PRINTF> : printf
-<ABRE_PARENTESES> : (
-<STRING_LITERAL> : "%d, "
-<VIRGULA> : ,
-<ID> : nextTerm
-<FECHA_PARENTESES> : )
-<PONTO_VIRGULA> : ;
-<ID> : t1
-<ATRIBUIÇÃO> : =
-<ID> : t2
-<PONTO_VIRGULA> : ;
-<ID> : t2
-<ATRIBUIÇÃO> : =
-<ID> : nextTerm
-<PONTO_VIRGULA> : ;
-<ID> : nextTerm
-<ATRIBUIÇÃO> : =
-<ID> : t1
-<MAIS> : +
-<ID> : t2
-<PONTO_VIRGULA> : ;
-<FECHA_CHAVE> : }
-<RETURN> : return
-<INT_LITERAL> : 0
-<PONTO_VIRGULA> : ;
-<FECHA_CHAVE> : }
+<INT> : int => 1:3
+<ID> : resultado => 1:13
+<PONTO_VIRGULA> : ; => 1:14
+<ID> : resultado => 2:9
+<ATRIBUIÇÃO> : = => 2:11
+<INT_LITERAL> : 0 => 2:13
+<PONTO_VIRGULA> : ; => 2:14
+<INT> : int => 3:3
+<ID> : i => 3:5
+<ID> : i => 4:1
+<ATRIBUIÇÃO> : = => 4:3
+<INT_LITERAL> : 10 => 4:6
+<PONTO_VIRGULA> : ; => 4:7
+<FLOAT> : float => 5:5
+<ID> : a => 5:7
+<PONTO_VIRGULA> : ; => 5:8
+<FLOAT> : float => 6:5
+<ID> : b => 6:7
+<PONTO_VIRGULA> : ; => 6:8
+<FOR> : for => 7:3
+<ABRE_PARENTESES> : ( => 7:4
+<INT> : int => 7:7
+<ID> : i => 7:9
+<ATRIBUIÇÃO> : = => 7:11
+<PONTO_VIRGULA> : ; => 7:13
+<ID> : i => 7:15
+<MENOR> : < => 7:17
+<INT_LITERAL> : 10 => 7:20
+<PONTO_VIRGULA> : ; => 7:21
+<ID> : i => 7:22
+<MAIS_MAIS> : ++ => 7:24
+<FECHA_PARENTESES> : ) => 7:25
+<ABRE_CHAVE> : { => 7:26
+<ID> : b => 8:3
+<ATRIBUIÇÃO> : = => 8:5
+<FLOAT_LITERAL> : 2.1 => 8:9
+<PONTO_VIRGULA> : ; => 8:10
+<FECHA_CHAVE> : } => 9:1
+$

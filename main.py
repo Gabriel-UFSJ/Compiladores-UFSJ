@@ -1,13 +1,15 @@
-from analyzer import Analyzer
+from Lexical import lexical
+from Syntactic import syntactic
 
 with open("test.c", 'r') as file: # abrindo arquivo de entrada
     data = file.read()
-analyzer = Analyzer()
-tokens = analyzer.compile(data) #verificação dos tokens
+lex = lexical()
+tokens = lex.compile(data) #verificação dos tokens
 strTokens = ""
 
 for token in tokens:
-    strTokens += token.__str__() +"\n" # salvando os tokens com quebra de linha
+  strTokens += token.__str__() + "\n" # salvando os tokens com quebra de linha
+strTokens += "$"
 
 with open("saída.txt", 'w') as file:  # escrevendo a saída no arquivo
     data = file.write(strTokens)
@@ -54,7 +56,7 @@ with open ("test.c", 'r') as file: # achando as linhas do erro léxico
           print("Erro léxico linha: %d, %s" % (contador_linhas, linha))
     print("exit status %d"% (numErros))
         
-
-        
+parser = syntactic()
+parser.transition()
 
   

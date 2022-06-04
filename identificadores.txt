@@ -1,5 +1,5 @@
-<ID> : main
-<ID> : t1
-<ID> : t2
-<ID> : nextTerm
-<ID> : n
+<ID> : resultado => 1:13
+<ID> : i => 3:5
+<ID> : a => 5:7
+<ID> : b => 6:7
+<ID> : i => 7:9
