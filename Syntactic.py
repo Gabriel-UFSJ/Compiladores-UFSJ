@@ -37,11 +37,16 @@ class syntactic:
         self.next_token()
         self.assignment()
       elif any(x in self.tokens[self.line] for x in["<FOR>", "<WHILE>"]):
-        self.stmt()
-        self.line -= 1
-      if("<FECHA_CHAVE>") in self.tokens[self.line]: 
+        self.repeat()
+      elif("<IF>") in self.tokens[self.line]:
+        self.next_token()
+        self.decision()
+      elif("<ELSE>") in self.tokens[self.line]:
+        print("error: expected expression - line:%s" %self.last_line + "\n")
+      if("<FECHA_CHAVE>") in self.tokens[self.line]:    
         return
-      self.next_token()
+      if ("$") not in self.tokens[self.line]:
+        self.next_token()
       self.transition()
     else:
       print("EOF")
@@ -61,7 +66,7 @@ class syntactic:
         print("error: expected ';' - line:%s" %self.last_line + "\n")
         self.arq_out.write("error: expected ';' - line:%s" %self.last_line + "\n")
     else:
-      print("Error" +self.type_token() + "Missing identifier - line: %s " %self.last_line + "\n" )
+      print("Error missing identifier - line: %s " %self.last_line + "\n" )
       self.arq_out.write("Error" +self.type_token() + "Missing identifier - line: %s " %self.last_line + "\n" )
       
   def assignment(self):
@@ -110,7 +115,7 @@ class syntactic:
       self.arq_out.write("error: expected '= | <> | >= | <= | > | <' - line:%s" %self.last_line + "\n")
     self.expression()
 
-  def stmt(self):
+  def repeat(self):
     if("<FOR>") in self.tokens[self.line]:
       self.next_token()
       if("<ABRE_PARENTESES>") in self.tokens[self.line]:
@@ -124,7 +129,24 @@ class syntactic:
       else:
         print("error: expected '(' - line:%s" %self.last_line + "\n")
         self.arq_out.write("error: expected '(' - line:%s" %self.last_line + "\n") 
-      
+    elif("<WHILE>") in self.tokens[self.line]:
+      self.next_token()
+      if("<ABRE_PARENTESES>") in self.tokens[self.line]:
+        self.next_token()
+        if any(x in self.tokens[self.line] for x in["<INT_LITERAL>","<FLOAT_LITERAL>","<STRING_LITERAL>","<CHAR_LITERAL>"]):
+          self.expression()
+        else:
+          self.relation()
+        if("<FECHA_PARENTESES>") in self.tokens[self.line]:
+          self.next_token()
+          self.block()
+        else:
+          print("error: expected ')' - line:%s" %self.last_line + "\n")
+          self.arq_out.write("error: expected ')' - line:%s" %self.last_line + "\n") 
+      else:
+        print("error: expected '(' - line:%s" %self.last_line + "\n")
+        self.arq_out.write("error: expected '(' - line:%s" %self.last_line + "\n") 
+        
   def condition(self):
     self.next_token()
     if "<ERRO_LEXICO>" in self.tokens[self.line]:
@@ -133,6 +155,29 @@ class syntactic:
     self.relation()
     self.expression()
 
+  def decision(self):
+    if("<ABRE_PARENTESES>") in self.tokens[self.line]:
+      self.next_token()
+      print(self.tokens[self.line])
+      self.relation()
+      if any(x in self.tokens[self.line] for x in["<AND>", "<OR>"]):
+        self.next_token()
+        self.relation()
+      elif("<FECHA_PARENTESES>") in self.tokens[self.line]:
+        self.next_token()
+        self.block()
+        if("<ELSE>") in self.tokens[self.line]:
+          self.next_token()
+          if("<IF>") in self.tokens[self.line]:
+            self.next_token()
+            self.decision()
+          self.block()
+      else:
+        print("error: expected ')' - line:%s" %self.last_line + "\n")
+        self.arq_out.write("error: expected ')' - line:%s" %self.last_line + "\n") 
+    else:
+      print("error: expected '(' - line:%s" %self.last_line + "\n")
+      self.arq_out.write("error: expected '(' - line:%s" %self.last_line + "\n")
   
   def expression(self):
     if "<ERRO_LEXICO>" in self.tokens[self.line]:
