@@ -1,18 +1,11 @@
-int a;
-float b;
-char c;
-a = 1;
-b = 2.1;
-c = 'd';
-while(a < 10){
-  int a = 2;
-}
 for(int a = 0; a < 10; a++){
-  b += 1;
-  if (b > a){
-    b += 1;
-  }
-  else {
-    b -= 1;
+  int e;
+  while(true){
+    if (e == a){
+      e = 1;
+    }
+    else{
+      e += 1;
+    }
   }
 }

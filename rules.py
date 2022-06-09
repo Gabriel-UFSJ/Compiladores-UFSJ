@@ -12,6 +12,8 @@ RULES = [
     ("BREAK", r"break", None, UNTIL_SPACE_OR_SEMICOLON),
     ("BOOL", r"bool", None, UNTIL_SPACE),
     ("MAIN", r"main", None, None),
+    ("TRUE", r"true", None, None),
+    ("FALSE", r"false", None, None),
     ("CASE", r"case", None, UNTIL_SPACE),
     ("CHAR", r"char", None, UNTIL_SPACE),
     ("CONST", r"const", None, UNTIL_SPACE),
@@ -60,9 +62,9 @@ RULES = [
     ("IGUAL", r"\=\=", None, None), # ==
     ("DIFERENTE", r"\!\=", None, None), # != 
     ("AND", r"\&\&", None, None), # Operador logico &&
-    ("OR", r"\|\|", None, None), # Operador logico ||
+    ("OR", r"\|\|", None, None),# Operador logico ||
     ("COMENT_MULTI", r"\/\*.*\*\/", None, None), # Comentario de várias linhas
     ("COMENT_LINHA", r"\/\/.*", None, None), # Comentario de 1 linha
-    ('SEPARADOR', r'[ \t]+', None, None),  # Separadores
+    ('SEPARADOR', r'[ \t]+', None, None),# Separadores
     ("ERRO_LEXICO", r".+", None, None), # Erro léxico
 ]

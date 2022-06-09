@@ -31,6 +31,8 @@ class lexical:
             lastcolum = match.span()[1]
             if match.lastgroup == "SEPARADOR": # ao encontrar um separador continua
               continue
+            if match.lastgroup == "QUEBRA_LINHA": # ao encontrar um separador continua
+              continue
             tokens.append(Token(match.lastgroup, match.group(), line, colum,))
         return tokens
 
