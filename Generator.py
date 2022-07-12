@@ -47,3 +47,11 @@ class generator:
     if "<MENOS_MENOS>" in op:
       self.operands += "," + self.operands
       self.operation = "sub"
+    if "<MAIOR>" in op:
+      self.operation = "bne"
+      self.gencode.operands = "temp,$zero,label"
+    if "<MENOR>" in op:
+      self.operation = "beq"
+      self.gencode.operands = "temp,$zero,label"
+    if "<ATRIBUIÇÃO>" in op:
+      self.operation = "beq"

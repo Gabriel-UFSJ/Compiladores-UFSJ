@@ -1,6 +1,12 @@
 ID - Operation - Operands - Description - Notes
 ------------------------------------------------
-0 - word - a - .word - declaração
-1 - word - b - .word - declaração
-2 - word - c - .word - declaração
-3 - word - a,c - .word - atribuição
+0 - word - a - .word - declaration
+1 - word - b - .word - declaration
+2 - word - c - .word - declaration
+3 - word - i - .word - declaration
+4 - word - j - .word - declaration
+5 - word - u - .word - declaration
+6 - lw - a,c - .word <- number - assignment
+7 - slt - temp,j,u - $rs,$rt,branch value - compare contents
+8 - beq - j,u - $rs,$rt,branch value - compare contents
+9 - lw - i,1 - .word <- number - assignment

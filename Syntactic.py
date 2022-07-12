@@ -40,7 +40,7 @@ class syntactic:
     #print(self.tokens[self.line])
     if("$" not in self.tokens[self.line]):
       if any(x in self.tokens[self.line] for x in ["<INT>", "<CHAR>", "<FLOAT>"]):
-        self.gencode.notes = "declaração"
+        self.gencode.notes = "declaration"
         self.gencode.operation = "word"
         self.gencode.description = ".word"
         self.declaration()
@@ -113,15 +113,17 @@ class syntactic:
       self.gencode.description = "dest <- src1 " + self.which_token() + " src2"
       self.next_token()
     if ("<ATRIBUIÇÃO>") in self.tokens[self.line]:
-      self.gencode.notes = "atribuição"
+      #print(self.tokens[self.line])
+      self.gencode.notes = "assignment"
+      self.gencode.operation = "lw"
+      self.gencode.description = ".word <- number"
       self.next_token()
       if any(x in self.tokens[self.line] for x in["<INT_LITERAL>","<FLOAT_LITERAL>","<STRING_LITERAL>","<CHAR_LITERAL>","<ID>"]):
         #print(self.tokens[self.line])
         if ("<ID>") in self.tokens[self.line]:
-          #print(self.tokens[self.line])
           self.semantic.tab_consult(self.tokens[self.line])
-          self.gencode.operands += "," + self.which_token()
-          self.next_token()
+        self.gencode.operands += "," + self.which_token()
+        self.next_token()  
         if "<PONTO_VIRGULA>" in self.tokens[self.line]:
           self.gencode.geration_table()
           self.next_token()
@@ -144,24 +146,32 @@ class syntactic:
     elif "<FALSE>" in self.tokens[self.line]:# false
       self.next_token()
     else:
-      self.gencode.operands = self.which_token()
-      self.next_token()
+      op = self.tokens[self.line]
+      self.gencode.operands = "temp" + "," 
       if "<ATRIBUIÇÃO>" in self.tokens[self.line]: # =
-        self.gencode.operands = self.which_neighbor(self.line-2)
+        self.next_token()
+        self.gencode.operands += self.which_neighbor(self.line-2) 
         self.next_token()
       elif "<DIFERENTE>" in self.tokens[self.line]: # !=
+        self.gencode.operands += self.which_neighbor(self.line-2) 
         self.next_token()
       elif "<MAIOR_IGUAL>" in self.tokens[self.line]:# >=
+        self.gencode.operands += self.which_neighbor(self.line-2) 
         self.next_token()
       elif "<MENOR_IGUAL>" in self.tokens[self.line]: # <=
+        self.gencode.operands += self.which_neighbor(self.line-2) 
         self.next_token()
       elif "<MAIOR>" in self.tokens[self.line]: # >
+        self.gencode.operands += self.which_neighbor(self.line-1) 
         self.next_token()
       elif "<MENOR>" in self.tokens[self.line]:# <
+        self.gencode.operands += self.which_neighbor(self.line-1) 
         self.next_token()
       elif "<AND>" in self.tokens[self.line]:# <
+        self.gencode.operands += self.which_neighbor(self.line-1) 
         self.next_token()
       elif "<OR>" in self.tokens[self.line]:# <
+        self.gencode.operands += self.which_neighbor(self.line-1) 
         self.next_token()
       else:
         print("error: expected '= | <> | >= | <= | > | <' - line:%s" %self.last_line + "\n")
@@ -170,6 +180,12 @@ class syntactic:
       self.gencode.notes = "compare contents"
       self.gencode.description = "$rs,$rt,branch value"
       self.gencode.geration_table()
+      
+      self.gencode.opcode(op)
+      self.gencode.operands = self.which_neighbor(self.line - 3)
+      self.gencode.operands += "," + self.which_token()
+      self.gencode.geration_table()
+      
       self.expression()
 
   def repeat(self):
@@ -231,7 +247,7 @@ class syntactic:
     self.gencode.description = "literal assignment"
     self.declaration()
     
-    self.gencode.operation = "comp"
+    self.gencode.operation = "slt"
     self.relation()
 
     self.gencode.notes = "arithmetic expressions"
@@ -243,12 +259,13 @@ class syntactic:
   def decision(self):
     #print(self.tokens[self.line])
     if("<ID>") in self.tokens[self.line]:
-      self.gencode.operation = "comp"
+      self.gencode.operation = "slt"
       self.gencode.description = "branch on equal"
       self.gencode.notes = "compare contents"
       self.next_token()
       self.relation()
       self.expression()
+      #print(self.tokens[self.line])
     if any(x in self.tokens[self.line] for x in["<AND>", "<OR>"]):
       self.next_token()
       self.decision()
@@ -256,6 +273,7 @@ class syntactic:
       self.next_token()
       if("<ABRE_CHAVE>") in self.tokens[self.line]:
         self.next_token()
+        #print(self.tokens[self.line])
         self.block()
       else:
         print("error: expected '{' - line:%s" %self.last_line + "\n")
@@ -267,6 +285,7 @@ class syntactic:
           self.decision()
         if("<ABRE_CHAVE>") in self.tokens[self.line]:
           self.next_token()
+          #print(self.tokens[self.line])
           self.block()
         else:
           print("error: expected '{' - line:%s" %self.last_line + "\n")
@@ -280,7 +299,7 @@ class syntactic:
       self.next_token()
     if "<ID>" in self.tokens[self.line]:
       #print(self.tokens[self.line])
-      #self.semantic.tab_consult(self.tokens[self.line])
+      self.semantic.tab_consult(self.tokens[self.line])
       self.next_token()
     if any(x in self.tokens[self.line] for x in["<MAIS>","<MENOS>","<MULTIPLICAÇÃO>","<DIVISÃO>","<MAIS_MAIS>","<MENOS_MENOS>"]):
       #print(self.tokens[self.line])
@@ -289,6 +308,7 @@ class syntactic:
       #print(self.tokens[self.line])
     if any(x in self.tokens[self.line] for x in["<INT_LITERAL>","<FLOAT_LITERAL>","<STRING_LITERAL>","<CHAR_LITERAL>","<ID>"]):
       self.next_token()
+      #print(self.tokens[self.line])
     if "<PONTO_VIRGULA>" in self.tokens[self.line]:
       self.next_token()
 
@@ -296,11 +316,12 @@ class syntactic:
     if("$" not in self.tokens[self.line]):
       #print(self.tokens[self.line])
       if any(x in self.tokens[self.line] for x in ["<INT>", "<CHAR>", "<FLOAT>"]):
-        self.gencode.notes = "declaração"
+        self.gencode.notes = "declaration"
         self.gencode.operation = "word"
         self.gencode.description = ".word"
         self.declaration()
       elif "<ID>" in self.tokens[self.line]:
+        #print(self.tokens[self.line])
         self.gencode.operands = self.which_token()
         self.semantic.tab_consult(self.tokens[self.line])
         self.next_token()
