@@ -28,22 +28,6 @@ with open ("saída.txt", 'r') as file: # função para verificar erros léxicos
 with open ("Erros_léxicos.txt", 'w') as file: # escrevendo os erros no arquivo
   data = file.write(erros)
 
-
-with open ("saída.txt", 'r') as file: # verificando as variáveis iniciadas no arquivo
-  iniInt = "<INT>"
-  iniChar = "<CHAR>"
-  iniFloat = "<FLOAT>"
-  id = "<ID>"
-  identificador = ""
-  for linha in file:
-    if iniInt in linha or iniChar in linha or iniFloat in linha:
-      prox = file.readline() # VÊ SE DÁ CERTO
-      if id in prox:
-        identificador += prox
-
-with open ("identificadores.txt", 'w') as file: # escrevendo as variáveis iniciadas
-  data = file.write(identificador)
-
 with open ("test.c", 'r') as file: # achando as linhas do erro léxico
   with open ("Erros_léxicos.txt", 'r') as txt:
     while palavra:

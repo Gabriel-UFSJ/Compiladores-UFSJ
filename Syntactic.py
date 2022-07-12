@@ -1,3 +1,6 @@
+from Semantic import semantic
+from Generator import generator
+
 class syntactic:
   
   def __init__ (self):  
@@ -6,7 +9,10 @@ class syntactic:
     self.arq_in.close
 
     self.arq_out = open("resp_syntactic.txt", 'w')
-      
+
+    self.semantic = semantic()
+    self.gencode = generator()
+    
     self.line = 0 # line count
     self.colum = 1 # colum count
   
@@ -25,14 +31,22 @@ class syntactic:
     return self.tokens[self.line][self.tokens[self.line].find('<')+1:self.tokens[self.line].find('>')]
 
   def which_token(self):
-    return self.tokens[self.line][:self.tokens[self.line].find('>')]
+    return self.tokens[self.line][self.tokens[self.line].find(':')+2:self.tokens[self.line].find(' =>')]
+    
+  def which_neighbor(self,line):
+    return self.tokens[line][self.tokens[line].find(':')+2:self.tokens[line].find(' =>')]
   
   def transition(self):
     #print(self.tokens[self.line])
     if("$" not in self.tokens[self.line]):
       if any(x in self.tokens[self.line] for x in ["<INT>", "<CHAR>", "<FLOAT>"]):
+        self.gencode.notes = "declaração"
+        self.gencode.operation = "word"
+        self.gencode.description = ".word"
         self.declaration()
       elif "<ID>" in self.tokens[self.line]:
+        self.gencode.operands = self.which_token()
+        self.semantic.tab_consult(self.tokens[self.line])
         self.next_token()
         self.assignment()
       elif any(x in self.tokens[self.line] for x in["<FOR>", "<WHILE>"]):
@@ -51,22 +65,36 @@ class syntactic:
       if("<FECHA_CHAVE>") in self.tokens[self.line]:
         #print(self.tokens[self.line])
         self.next_token()
-      if ("$") not in self.tokens[self.line]:
-        self.next_token()
+      #if ("$") not in self.tokens[self.line]:
+        #print(self.tokens[self.line])
+        #self.next_token()
       self.transition()
     else:
-      print("EOF")
+      #print("EOF")
       self.arq_out.close()
+      self.semantic.write_arq()
+      self.semantic.print_errors()
+      self.semantic.print_unused()
+      self.semantic.arq_out.close()
+      self.gencode.arq_out.close()
+      print("\n")
+      self.gencode.print_table()
       
   def declaration(self):
     self.next_token()
     if "<ERRO_LEXICO>" in self.tokens[self.line]:
       self.next_token()
     elif any(x in self.tokens[self.line] for x in ["<ID>"]):
+      self.gencode.operands = self.which_token()
+      self.semantic.tab_id(self.tokens[self.line],self.tokens[self.line -1])      
       self.next_token()
       if "<PONTO_VIRGULA>" in self.tokens[self.line]:
+        #print("chegou")
+        #print(self.tokens[self.line])
+        self.gencode.geration_table()
         self.next_token()
       elif("<ATRIBUIÇÃO>") in self.tokens[self.line]:
+        self.gencode.description = ".word <- number"
         self.assignment()
       else:
         print("error: expected ';' - line:%s" %self.last_line + "\n")
@@ -80,12 +108,22 @@ class syntactic:
     if "<ERRO_LEXICO>" in self.tokens[self.line]:
       self.next_token()
     if any(x in self.tokens[self.line] for x in["<MAIS>","<MENOS>","<MULTIPLICAÇÃO>","<DIVISÃO>"]):
+      self.gencode.operands += "," + self.which_neighbor(self.line-1)
+      self.gencode.opcode(self.tokens[self.line])
+      self.gencode.description = "dest <- src1 " + self.which_token() + " src2"
       self.next_token()
     if ("<ATRIBUIÇÃO>") in self.tokens[self.line]:
+      self.gencode.notes = "atribuição"
       self.next_token()
-      if any(x in self.tokens[self.line] for x in["<INT_LITERAL>","<FLOAT_LITERAL>","<STRING_LITERAL>","<CHAR_LITERAL>"]):
-        self.next_token()
+      if any(x in self.tokens[self.line] for x in["<INT_LITERAL>","<FLOAT_LITERAL>","<STRING_LITERAL>","<CHAR_LITERAL>","<ID>"]):
+        #print(self.tokens[self.line])
+        if ("<ID>") in self.tokens[self.line]:
+          #print(self.tokens[self.line])
+          self.semantic.tab_consult(self.tokens[self.line])
+          self.gencode.operands += "," + self.which_token()
+          self.next_token()
         if "<PONTO_VIRGULA>" in self.tokens[self.line]:
+          self.gencode.geration_table()
           self.next_token()
         else:
           print("error: expected ';' - line:%s" %self.last_line + "\n")
@@ -106,8 +144,10 @@ class syntactic:
     elif "<FALSE>" in self.tokens[self.line]:# false
       self.next_token()
     else:
+      self.gencode.operands = self.which_token()
       self.next_token()
       if "<ATRIBUIÇÃO>" in self.tokens[self.line]: # =
+        self.gencode.operands = self.which_neighbor(self.line-2)
         self.next_token()
       elif "<DIFERENTE>" in self.tokens[self.line]: # !=
         self.next_token()
@@ -126,6 +166,10 @@ class syntactic:
       else:
         print("error: expected '= | <> | >= | <= | > | <' - line:%s" %self.last_line + "\n")
         self.arq_out.write("error: expected '= | <> | >= | <= | > | <' - line:%s" %self.last_line + "\n")
+      self.gencode.operands += "," + self.which_token()
+      self.gencode.notes = "compare contents"
+      self.gencode.description = "$rs,$rt,branch value"
+      self.gencode.geration_table()
       self.expression()
 
   def repeat(self):
@@ -183,18 +227,28 @@ class syntactic:
     self.next_token()
     if "<ERRO_LEXICO>" in self.tokens[self.line]:
       self.next_token()
+    self.gencode.operation = "lw"
+    self.gencode.description = "literal assignment"
     self.declaration()
+    
+    self.gencode.operation = "comp"
     self.relation()
+
+    self.gencode.notes = "arithmetic expressions"
+    self.gencode.operands = self.which_token()
+    self.gencode.description = "dest <- src1 " + self.which_token() + " src2"
     self.expression()
+    self.gencode.geration_table()
 
   def decision(self):
     #print(self.tokens[self.line])
     if("<ID>") in self.tokens[self.line]:
+      self.gencode.operation = "comp"
+      self.gencode.description = "branch on equal"
+      self.gencode.notes = "compare contents"
       self.next_token()
       self.relation()
-      #print("voltou")
       self.expression()
-      #print("voltou exp - " + self.tokens[self.line])
     if any(x in self.tokens[self.line] for x in["<AND>", "<OR>"]):
       self.next_token()
       self.decision()
@@ -222,25 +276,33 @@ class syntactic:
       self.arq_out.write("error: expected ')' - line:%s" %self.last_line + "\n") 
   
   def expression(self):
-    #print(self.tokens[self.line])
     if "<ERRO_LEXICO>" in self.tokens[self.line]:
       self.next_token()
     if "<ID>" in self.tokens[self.line]:
+      #print(self.tokens[self.line])
+      #self.semantic.tab_consult(self.tokens[self.line])
       self.next_token()
-    if any(x in self.tokens[self.line] for x in["<MAIS>","<MENOS>","<MULTIPLICAÇÃO>","<DIVISÃO>","<MAIS_MAIS>","<MENOS+MENOS>"]):
+    if any(x in self.tokens[self.line] for x in["<MAIS>","<MENOS>","<MULTIPLICAÇÃO>","<DIVISÃO>","<MAIS_MAIS>","<MENOS_MENOS>"]):
+      #print(self.tokens[self.line])
+      self.gencode.opcode(self.tokens[self.line])
       self.next_token()
       #print(self.tokens[self.line])
     if any(x in self.tokens[self.line] for x in["<INT_LITERAL>","<FLOAT_LITERAL>","<STRING_LITERAL>","<CHAR_LITERAL>","<ID>"]):
       self.next_token()
     if "<PONTO_VIRGULA>" in self.tokens[self.line]:
-          self.next_token()
+      self.next_token()
 
   def block(self):
     if("$" not in self.tokens[self.line]):
       #print(self.tokens[self.line])
       if any(x in self.tokens[self.line] for x in ["<INT>", "<CHAR>", "<FLOAT>"]):
+        self.gencode.notes = "declaração"
+        self.gencode.operation = "word"
+        self.gencode.description = ".word"
         self.declaration()
       elif "<ID>" in self.tokens[self.line]:
+        self.gencode.operands = self.which_token()
+        self.semantic.tab_consult(self.tokens[self.line])
         self.next_token()
         self.assignment()
       elif any(x in self.tokens[self.line] for x in["<FOR>", "<WHILE>"]):
@@ -259,6 +321,8 @@ class syntactic:
         print("error: expected expression - line:%s" %self.last_line + "\n")
         self.arq_out.write("error: expected expression - line:%s" %self.last_line + "\n")
       #print("antes - " + self.tokens[self.line])
+      if("<PONTO_VIRGULA>") in self.tokens[self.line]:
+        self.next_token()
       if("<FECHA_CHAVE>") not in self.tokens[self.line]:
         self.block()
     #print("chegou" + self.tokens[self.line])

@@ -1,0 +1,6 @@
+ID - Operation - Operands - Description - Notes
+------------------------------------------------
+0 - word - a - .word - declaração
+1 - word - b - .word - declaração
+2 - word - c - .word - declaração
+3 - word - a,c - .word - atribuição
